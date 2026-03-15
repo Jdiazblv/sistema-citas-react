@@ -1,23 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import RegistroPaciente from "./components/RegistroPaciente";
+import AgendarCita from "./components/agendarcita";
+import "./App.css";
 
 function App() {
+
+  // Estado principal donde se guardaron todos los pacientes
+  const [listaPacientes, setListaPacientes] = useState ([]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container">
+
+      <h1>Sistema de Gestión de Citas Médicas</h1>
+
+      {/* Enviamos la lista de pacientes al componente de registro */}
+      <RegistroPaciente 
+        listaPacientes={listaPacientes}
+        setListaPacientes={setListaPacientes}
+      />
+
+      <hr />
+
+      {/* Enviamos la lista de pacientes a formulario de citas */}
+      <AgendarCita 
+        listaPacientes={listaPacientes}
+      />
+
     </div>
   );
 }
