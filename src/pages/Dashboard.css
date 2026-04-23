@@ -1,0 +1,224 @@
+body{
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #f4f6f9;
+}
+
+/* contenedor principal */
+.container{
+  width: 800px;
+  margin: auto;
+  background: white;
+  padding: 30px;
+  margin-top: 30px;
+  border-radius: 8px;
+}
+
+/* titulos */
+h1{
+  text-align: center;
+}
+
+h2{
+  margin-top: 30px;
+}
+
+/* formularios */
+form div{
+  margin-bottom: 10px;
+}
+
+/* inputs */
+input, select{
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+}
+
+/* botones */
+button{
+  padding: 10px 15px;
+  background-color: #0077cc;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover{
+  background-color: #005fa3;
+}
+
+/* tablas */
+table{
+  width: 100%;
+  margin-top: 15px;
+  border-collapse: collapse;
+}
+
+th{
+  background-color: #0077cc;
+  color: white;
+  padding: 8px;
+}
+
+td{
+  padding: 8px;
+  text-align: center;
+}
+
+tr:nth-child(even){
+  background-color: #f2f2f2;
+}
+.panel-principal {
+
+  padding: 20px;
+  color: white;
+
+}
+
+.cards {
+
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+
+}
+
+/* Tarjeta general */
+
+.card {
+
+  flex: 1;
+  min-width: 180px;
+
+  padding: 20px;
+
+  border-radius: 10px;
+
+  color: white;
+
+  cursor: pointer;
+
+  transition: transform 0.2s;
+
+}
+
+/* Hover */
+
+.card:hover {
+
+  transform: scale(1.05);
+
+}
+
+/* Colores */
+
+.azul {
+
+  background: #3f51b5;
+
+}
+
+.verde {
+
+  background: #2e7d32;
+
+}
+
+.morado {
+
+  background: #6a1b9a;
+
+}
+
+.celeste {
+
+  background: #0288d1;
+
+}
+
+/* Texto */
+
+.card h2 {
+
+  font-size: 32px;
+  margin: 0;
+
+}
+
+.card p {
+
+  margin-top: 10px;
+
+}
+.tabla-citas {
+
+  margin-top: 30px;
+
+}
+
+table {
+
+  width: 100%;
+  border-collapse: collapse;
+
+  background: #1e1e1e;
+
+  border-radius: 10px;
+  overflow: hidden;
+
+}
+
+th {
+
+  background: #1976d2;
+
+  padding: 12px;
+
+  text-align: left;
+
+}
+
+td {
+
+  padding: 12px;
+
+  border-bottom: 1px solid #333;
+
+}
+
+/* Estados */
+
+.pendiente {
+
+  color: orange;
+  font-weight: bold;
+
+}
+
+.confirmada {
+
+  color: lightgreen;
+  font-weight: bold;
+
+}
+
+.cancelada {
+
+  color: red;
+  font-weight: bold;
+
+}
+.card {
+
+  cursor: pointer;
+
+}
+
+.card:hover {
+
+  transform: scale(1.05);
+
+  opacity: 0.9;
+
+}

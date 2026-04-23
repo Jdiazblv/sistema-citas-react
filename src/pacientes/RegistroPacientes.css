@@ -1,0 +1,71 @@
+body{
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #f4f6f9;
+}
+
+/* contenedor principal */
+.container{
+  width: 800px;
+  margin: auto;
+  background: white;
+  padding: 30px;
+  margin-top: 30px;
+  border-radius: 8px;
+}
+
+/* titulos */
+h1{
+  text-align: center;
+}
+
+h2{
+  margin-top: 30px;
+}
+
+/* formularios */
+form div{
+  margin-bottom: 10px;
+}
+
+/* inputs */
+input, select{
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+}
+
+/* botones */
+button{
+  padding: 10px 15px;
+  background-color: #0077cc;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover{
+  background-color: #005fa3;
+}
+
+/* tablas */
+table{
+  width: 100%;
+  margin-top: 15px;
+  border-collapse: collapse;
+}
+
+th{
+  background-color: #0077cc;
+  color: white;
+  padding: 8px;
+}
+
+td{
+  padding: 8px;
+  text-align: center;
+}
+
+tr:nth-child(even){
+  background-color: #f2f2f2;
+}

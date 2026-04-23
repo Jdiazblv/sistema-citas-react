@@ -1,0 +1,160 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+.login-container {
+    height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: linear-gradient(
+        135deg,
+        #0f172a,
+        #020617
+    );
+}
+
+.login-card {
+
+    width: 320px;
+
+    background-color: #020617;
+
+    padding: 30px;
+
+    border-radius: 12px;
+
+    box-shadow: 0 0 20px rgba(0,0,0,0.6);
+
+    text-align: center;
+}
+
+.login-title {
+
+    color: #38bdf8;
+    margin-bottom: 5px;
+}
+
+.login-subtitle {
+
+    color: #94a3b8;
+    font-size: 14px;
+
+    margin-bottom: 20px;
+}
+
+.login-card input {
+
+    width: 100%;
+
+    padding: 10px;
+
+    margin-bottom: 12px;
+
+    border-radius: 6px;
+
+    border: none;
+
+    background-color: #020617;
+
+    color: white;
+
+    border: 1px solid #1e293b;
+}
+
+.login-card button {
+
+    width: 100%;
+
+    padding: 10px;
+
+    border-radius: 6px;
+
+    border: none;
+
+    background-color: #38bdf8;
+
+    color: black;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    margin-top: 10px;
+}
+
+.btn-secundario {
+
+    background-color: transparent;
+
+    color: #38bdf8;
+
+    border: 1px solid #38bdf8;
+
+}
+
+.link-recuperar {
+
+    background: none;
+
+    border: none;
+
+    color: #94a3b8;
+
+    margin-top: 10px;
+
+    cursor: pointer;
+
+    font-size: 13px;
+}
+
+.error-text {
+
+    color: #ef4444;
+
+    font-size: 13px;
+
+    margin-bottom: 10px;
+}
+/* Mostrar contraseña */
+
+.mostrar-password {
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+
+    gap: 8px;
+
+    margin-top: -5px;
+    margin-bottom: 10px;
+
+}
+
+/* Checkbox */
+
+.mostrar-password input[type="checkbox"] {
+
+    width: auto;
+    margin: 0;
+
+    cursor: pointer;
+
+    transform: scale(1.1);
+
+}
+
+/* Texto */
+
+.mostrar-password label {
+
+    cursor: pointer;
+
+    font-size: 13px;
+
+    color: #94a3b8;
+
+}

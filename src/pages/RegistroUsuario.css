@@ -1,0 +1,145 @@
+.registro-container {
+
+    min-height: 100vh;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    background: linear-gradient(
+        135deg,
+        #020617,
+        #0f172a
+    );
+
+}
+
+.registro-card {
+
+    width: 650px;
+
+    background-color: #020617;
+
+    padding: 30px;
+
+    border-radius: 15px;
+
+    border: 2px solid #38bdf8;
+
+    color: white;
+
+}
+
+.registro-card h2 {
+    text-align: center;
+    color: #38bdf8;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+/* INPUTS tipo cápsula */
+
+.form-grid input,
+.form-grid select {
+    padding: 12px;
+    border-radius: 25px;
+    border: 2px solid #38bdf8;
+    background-color: transparent;
+    color: white;
+    outline: none;
+}
+
+/* Fecha ocupa toda la fila */
+
+.form-grid input[type="date"] {
+    grid-column: span 2;
+}
+
+/* Nota inferior */
+
+.nota {
+    font-size: 12px;
+    margin-top: 12px;
+    color: #94a3b8;
+}
+
+/* Botón */
+
+.registro-card button {
+    width: 200px;
+    padding: 12px;
+    margin: 20px auto 0;
+    display: block;
+    border: none;
+    border-radius: 25px;
+    background-color: #38bdf8;
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
+}
+.error {
+    color: #f87171;
+    font-size: 12px;
+    margin-top: 4px;
+}
+.campo {
+
+    display: flex;
+    flex-direction: column;
+    
+    margin-bottom: 16px;
+}
+
+/* Labels */
+
+.campo label {
+
+    font-size: 13px;
+    margin-bottom: 5px;
+    color: #38bdf8;
+
+}
+
+/* Error */
+
+.error {
+
+    color: #f87171;
+    font-size: 12px;
+    margin-top: 4px;
+
+}
+
+/* Bordes Rojos en errores */
+.input-error {
+    border: 2px solid red;
+}
+
+.mostrar-password {
+
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 5px;
+    font-size: 14px;
+
+}
+.mostrar-password {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    margin-top: 8px;      /* separa del input */
+    margin-bottom: 15px;  /* separa del siguiente campo */
+}
+input,
+select {
+    margin-top: 5px;
+}
