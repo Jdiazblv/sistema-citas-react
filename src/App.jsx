@@ -7,9 +7,16 @@ import RegistroUsuario from "./pages/RegistroUsuario";
 import Login from "./pages/Login";
 import OlvidoSuContrasena from "./pages/OlvidoSuContrasena";
 
-/* pacientes */
+/* Usuarios */
+import GestionUsuarios from "./Usuarios/GestionUsuarios";
+
+/* Pacientes */
 import RegistroPacientes from "./pacientes/RegistroPacientes";
-// import ListaPacientes from "./pacientes/ListaPacientes";
+import GestionPacientes from "./pacientes/GestionPacientes";
+import PerfilPaciente from "./pacientes/PerfilPaciente";
+
+/* Medicos */
+import GestionMedicos from "./Medicos/GestionMedicos";
 
 /* citas */
 import AgendarCita from "./citas/AgendarCita";
@@ -22,10 +29,7 @@ import Layout from "./layout/Layout";
 
 function App() {
 
-    const [listaPacientes, setListaPacientes] = useState(() => {
-        const datosGuardados = localStorage.getItem("listaPacientes");
-            return datosGuardados ? JSON.parse(datosGuardados) : [];
-    });
+    const [listaPacientes, setListaPacientes] = useState([]);
 
     return (
     
@@ -54,14 +58,39 @@ function App() {
                     element = {<Dashboard />}
                 />
 
+                <Route 
+                    path = "/gestion-usuarios"
+                    element = {<GestionUsuarios />}
+                />
+
+                <Route
+                    path = "/gestion-pacientes"
+                    element = {
+                        <GestionPacientes
+                            listaPacientes={listaPacientes}
+                            setListaPacientes={setListaPacientes}
+                        />
+                    }
+                />
+
                 <Route
                     path = "/registro-paciente"
                     element = {
                         <RegistroPacientes
-                        listaPacientes={listaPacientes}
-                        setListaPacientes={setListaPacientes}
+                            listaPacientes={listaPacientes}
+                            setListaPacientes={setListaPacientes}
                         />
                     }
+                />
+
+                <Route
+                    path = "/perfil-paciente/:id"
+                    element = {<PerfilPaciente />}
+                />
+
+                <Route 
+                    path = "/gestion-medicos"
+                    element = {<GestionMedicos />}
                 />
 
                 <Route

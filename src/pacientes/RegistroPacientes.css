@@ -1,71 +1,149 @@
 body{
-  font-family: Arial, Helvetica, sans-serif;
-  background-color: #f4f6f9;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f4f6f9;
 }
 
-/* contenedor principal */
+/* Contenedor principal */
 .container{
-  width: 800px;
-  margin: auto;
-  background: white;
-  padding: 30px;
-  margin-top: 30px;
-  border-radius: 8px;
+    max-width: 1000px;
+    margin: 30px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-sizing: border-box;
 }
 
-/* titulos */
+/* Títulos */
 h1{
-  text-align: center;
+    text-align: center;
 }
 
 h2{
-  margin-top: 30px;
+    margin-top: 30px;
 }
 
-/* formularios */
-form div{
-  margin-bottom: 10px;
+/* ===== FORMULARIO ===== */
+
+.registro-form{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(320px,1fr));
+    gap:20px;
+    align-items:start;
 }
 
-/* inputs */
-input, select{
-  width: 100%;
-  padding: 8px;
-  margin-top: 5px;
+/* Cada campo */
+
+.campo{
+    display:flex;
+    flex-direction:column;
+    width:100%;
 }
 
-/* botones */
+/* Campos que ocupan toda la fila */
+
+.full-width{
+    grid-column: 1 / -1;
+}
+
+/* Etiquetas */
+
+label{
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+/* Inputs */
+
+input,
+select{
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    box-sizing: border-box;
+}
+
+/* Checkbox */
+
+.checkbox{
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.checkbox input{
+    width:auto;
+}
+
+/* Botón */
+
+.button-container{
+    grid-column: 1 / -1;
+    text-align:center;
+}
+
 button{
-  padding: 10px 15px;
-  background-color: #0077cc;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
+    padding:10px 25px;
+    background:#0077cc;
+    color:white;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+    transition:.2s;
 }
 
 button:hover{
-  background-color: #005fa3;
+    background:#005fa3;
 }
 
-/* tablas */
+/* Tablas */
+
 table{
-  width: 100%;
-  margin-top: 15px;
-  border-collapse: collapse;
+    width:100%;
+    margin-top:20px;
+    border-collapse:collapse;
 }
 
 th{
-  background-color: #0077cc;
-  color: white;
-  padding: 8px;
+    background:#0077cc;
+    color:white;
+    padding:10px;
 }
 
 td{
-  padding: 8px;
-  text-align: center;
+    padding:10px;
+    text-align:center;
 }
 
 tr:nth-child(even){
-  background-color: #f2f2f2;
+    background:#f2f2f2;
+}
+
+/* Responsive */
+
+@media (max-width:768px){
+
+    .registro-form{
+        grid-template-columns:1fr;
+    }
+
+    .full-width{
+        grid-column:auto;
+    }
+
+}
+
+.mostrar-password{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-top:5px;
+}
+
+.mostrar-password input{
+    width:auto;
+    margin:0;
+}
+
+.mostrar-password label{
+    margin:0;
 }

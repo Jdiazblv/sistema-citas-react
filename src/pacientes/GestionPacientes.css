@@ -1,0 +1,58 @@
+/* Contenedor del buscador */
+.buscador {
+    position: relative;
+    width: 100%;
+    max-width: 450px;
+    margin: 15px 0;
+}
+/* Icono de la lupa */
+.icono-busqueda {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+
+    color: #777;
+    font-size: 16px;
+}
+/* Input */
+.buscador input {
+    width: 100%;
+    padding: 12px 12px 12px 42px;
+
+    border: 1px solid #ccc;
+    border-radius: 8px;
+
+    font-size: 15px;
+
+    outline: none;
+}
+.buscador input:focus {
+    border-color: #1976d2;
+    box-shadow: 0 0 5px rgba(25, 118, 210, 0.3);
+}
+/* Barra superior */
+.barra-superior {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 20px;
+    margin: 20px 0;
+}
+.btn-nuevo {
+    white-space: nowrap;
+}
+.btn-acciones{
+    padding: 8px 14px;
+    border: none;
+    border-radius: 6px;
+    background: #2563eb;
+    color: white;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.btn-acciones:hover{
+    background: #1d4ed8;
+}

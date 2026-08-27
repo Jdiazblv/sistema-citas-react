@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import "./RegistroPacientes.css";
+import api from "../services/api";
 
-function RegistroPacientes({ listaPacientes, setListaPacientes }) {
+function RegistroPacientes() {
     
     const [formData, setFormData] = useState({
-        rol: "",
-        especialidad: "",
+        rol: "Paciente",
         nombres: "",
         apellidos: "",
         tipoDocumento: "",
@@ -38,28 +38,6 @@ function RegistroPacientes({ listaPacientes, setListaPacientes }) {
 
         // Validar en tiempo real
         let nuevosErrores = { ...errores };
-
-        // Rol
-        if(name === "rol") {
-
-            if(!value) {
-                nuevosErrores.rol =
-                    "Seleccione su rol"
-            } else {
-                delete nuevosErrores.rol;
-            }
-        }
-
-        // Especialidad
-        if(name === "especialidad") {
-            
-            if(!value) {
-                nuevosErrores.especialidad =
-                "Ingrese su especialidad";
-            } else {
-                delete nuevosErrores.especialidad;
-            }
-        }
 
         // Nombres
         if(name === "nombres") {
@@ -226,23 +204,11 @@ function RegistroPacientes({ listaPacientes, setListaPacientes }) {
     };
 
     // Enviar formulario
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         
         e.preventDefault();
 
         let nuevosErrores = {};
-
-        // Rol
-        if(!formData.rol) {
-            nuevosErrores.rol =
-                "Ingrese su rol"
-        }
-
-        // Especialidad
-        if (formData.rol === "medico" && !formData.especialidad) {
-            nuevosErrores.especialidad =
-                "Ingrese su especialidad";
-        }
 
         // Nombres
         if(!formData.nombres) {
@@ -311,12 +277,12 @@ function RegistroPacientes({ listaPacientes, setListaPacientes }) {
         }
 
         // EPS
-        if (formData.rol === "paciente" && !formData.eps) {
+        if (!formData.eps) {
             nuevosErrores.eps =
-            "Ingrese su EPS";
+                "Ingrese su EPS";
         }
 
-        // Contraseña
+        // ContraseñaSS
         if (!formData.password) {
             nuevosErrores.password =
                 "Ingrese su contraseña";
@@ -339,39 +305,41 @@ function RegistroPacientes({ listaPacientes, setListaPacientes }) {
         setErrores(nuevosErrores);
 
         if (Object.keys(nuevosErrores).length === 0) {
-            
-            // Validar duplicado
-            const existe = (listaPacientes || []).find(
-                p => p.documento === formData.documento
-            );
-            
-            if (existe) {
-                alert("Este usuario ya está registrado");
+
+            try {
+
+                const paciente = {
+                    
+                    // Objeto nuevo - Guardar los datos necesarios del paciente 
+                    rol: formData.rol,
+                    nombres: formData.nombres,
+                    apellidos: formData.apellidos,
+                    tipoDocumento: formData.tipoDocumento,
+                    documento: formData.documento,
+                    correo: formData.correo,
+                    telefono: formData.telefono,
+                    fechaNacimiento: formData.fechaNacimiento,
+                    sexo: formData.sexo,
+                    eps: formData.eps,
+                    direccion: formData.direccion,
+                    password: formData.password
+                };
+
+                await api.post("/pacientes", paciente);
+
+            } catch (error) {
+
+                console.error("Error al registrar paciente.", error);
+
                 return;
             }
 
-            // Guardar paciente
-            setListaPacientes([
-                ...(listaPacientes || []),
-                formData
-            ]);
-            
-            // Guardar la lista de pacientes en localStorage
-            localStorage.setItem(
-                "listaPacientes",
-                JSON.stringify([
-                    ...(listaPacientes || []),
-                    formData
-                ])
-            );
-
             // Mensaje
-            alert("Usuario registrado correctamente")
+            alert("Paciente registrado correctamente")
 
             // Limpiar formulario
             setFormData({
-                rol: "",
-                especialidad: "",
+                rol: "Paciente",
                 nombres: "",
                 apellidos: "",
                 tipoDocumento: "",
@@ -391,71 +359,14 @@ function RegistroPacientes({ listaPacientes, setListaPacientes }) {
 
     return (
     
-        <div className="registro-paciente-container">
+        <div className="container">
 
             <h2>Registro de Paciente</h2>
 
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className="registro-form">
 
-                <h3>Datos personales: </h3>
+                <h3 className = "full-width"> Datos personales: </h3>
 
-                {/* Rol */}
-                <div className="campo">
-
-                    <label>Rol *</label>
-
-                    <select
-                        name="rol"
-                        value={formData.rol}
-                        onChange={handleChange}
-
-                        // Borde rojo para los errores
-                        className={
-                            errores.rol ? "input-error" : ""
-                        }
-                    >
-
-                    <option value="">Seleccionar</option>
-                    <option value="paciente">Paciente</option>
-                    <option value="medico">Médico</option>
-
-                    </select>
-
-                    {errores.rol &&
-                        <span className="error">
-                            {errores.rol}
-                        </span>
-                    }
-
-                </div>
-
-                {/* Especialidad (Solo si es médico)*/}
-                {formData.rol === "medico" && (
-                    <div className="campo">
-
-                        <label>Especialidad *</label>
-
-                        <input
-                            type="text"
-                            name="especialidad"
-                            value={formData.especialidad}
-                            onChange={handleChange}
-                            placeholder="Ingrese su especialidad"
-
-                            // Bordes rojos para los errores
-                            className={
-                                errores.especialidad ? "input-error" : ""
-                            }
-                        />
-
-                        {errores.especialidad &&
-                            <span className="error">
-                                {errores.especialidad}
-                            </span>
-                        }
-
-                    </div>
-                )}
         
                 {/* Nombres */}
                 <div className="campo">
@@ -672,33 +583,30 @@ function RegistroPacientes({ listaPacientes, setListaPacientes }) {
 
                 </div>
 
-                {/* EPS (Solo si es paciente)*/}
-                {formData.rol === "paciente" && (
+                {/* EPS */}
+                <div className="campo">
                     
-                    <div className="campo">
-                        
-                        <label>EPS *</label>
+                    <label>EPS *</label>
 
-                        <input
-                            type="text"
-                            name="eps"
-                            value={formData.eps}
-                            onChange={handleChange}
-                            placeholder="Ingrese su EPS"
+                    <input
+                        type="text"
+                        name="eps"
+                        value={formData.eps}
+                        onChange={handleChange}
+                        placeholder="Ingrese su EPS"
 
-                            // Borde rojo para los errores
-                            className={
-                                errores.eps ? "input-error" : ""
-                            }
-                        />
-
-                        {errores.eps &&
-                            <span className="error">
-                                {errores.eps}
-                            </span>
+                        // Borde rojo para los errores
+                        className={
+                            errores.eps ? "input-error" : ""
                         }
-                    </div>
-                )}
+                    />
+
+                    {errores.eps &&
+                        <span className="error">
+                            {errores.eps}
+                        </span>
+                    }
+                </div>
 
                 {/* Dirección */}
                 <div className="campo">
@@ -725,6 +633,8 @@ function RegistroPacientes({ listaPacientes, setListaPacientes }) {
                     }
                 </div>
 
+                <h3 className = "full-width"> Crear una contraseña: </h3>
+
                 {/* Contraseña */}
                 <div className="campo">
 
@@ -748,24 +658,6 @@ function RegistroPacientes({ listaPacientes, setListaPacientes }) {
                             {errores.password}
                         </span>
                     }
-
-                </div>
-                
-                {/* Mostrar contraseña */}
-                <div className="mostrar-password">
-
-                    <input
-                        type="checkbox"
-                        id="mostrarPassword"
-                        checked={mostrarPassword}
-                        onChange={() => 
-                            setMostrarPassword(!mostrarPassword)
-                        }
-                    />
-
-                    <label htmlFor="mostrarPassword">
-                        Mostar contraseña
-                    </label>
 
                 </div>
 
@@ -796,82 +688,31 @@ function RegistroPacientes({ listaPacientes, setListaPacientes }) {
 
                 </div>
 
-                <button type="submit">
-                    Registrar
-                </button>
+                {/* Mostrar contraseña */}
+                <div className="mostrar-password full-width">
+
+                    <input
+                        type="checkbox"
+                        id="mostrarPassword"
+                        checked={mostrarPassword}
+                        onChange={() => 
+                            setMostrarPassword(!mostrarPassword)
+                        }
+                    />
+
+                    <label htmlFor="mostrarPassword">
+                        Mostar contraseña
+                    </label>
+
+                </div>
+
+                <div className="burron-container full-width">
+                    <button type="submit">
+                        Registrar
+                    </button>
+                </div>
 
                 </form>
-
-                <h3>Médicos registrados</h3>
-
-                <table className="tabla-pacientes">
-
-                    <thead>
-
-                        <tr>
-                            <th>Nombres</th>
-                            <th>Especialidad</th>
-                            <th>Documento</th>
-                            <th>Teléfono</th>
-                            <th>Correo</th>
-                        </tr>
-
-                    </thead>
-
-                    <tbody>
-
-                        {(listaPacientes || []).filter(p => p.rol === "medico").map((p, index) => (
-                            
-                            <tr key={index}>
-
-                                <td>{p.nombres} {p.apellidos}</td>
-                                <td>{p.especialidad}</td>
-                                <td>{p.documento}</td>
-                                <td>{p.telefono}</td>
-                                <td>{p.correo}</td>
-
-                            </tr>
-
-                        ))}
-
-                    </tbody>
-                </table>
-
-                <h3>Pacientes registrados</h3>
-
-                <table className="tabla-pacientes">
-
-                    <thead>
-
-                        <tr>
-                            <th>Nombres</th>
-                            <th>Eps</th>
-                            <th>Documento</th>
-                            <th>Teléfono</th>
-                            <th>Correo</th>
-                        </tr>
-
-                    </thead>
-
-                    <tbody>
-
-                        {(listaPacientes || []).filter(p => p.rol === "paciente").map((p, index) => (
-                            
-                            <tr key={index}>
-
-                                <td>{p.nombres} {p.apellidos}</td>
-                                <td>{p.eps}</td>
-                                <td>{p.documento}</td>
-                                <td>{p.telefono}</td>
-                                <td>{p.correo}</td>
-
-                            </tr>
-
-                        ))}
-
-                    </tbody>
-
-                </table>
 
         </div>
     );

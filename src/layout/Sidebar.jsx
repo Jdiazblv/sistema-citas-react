@@ -36,9 +36,23 @@ function Sidebar() {
             </li>
 
             <li>
-                <NavLink to="/registro-paciente">
+                <NavLink to="/gestion-usuarios">
                     <FaUserPlus />
-                    {abierta && " Registro Paciente"}
+                    {abierta && " Gestión de Usuarios"}
+                </NavLink>
+            </li>
+
+            <li>
+                <NavLink to="/gestion-pacientes">
+                    <FaUserPlus />
+                    {abierta && " Gestión de Pacientes"}
+                </NavLink>
+            </li>
+
+            <li>
+                <NavLink to="/gestion-medicos">
+                    <FaUserPlus />
+                    {abierta && " Gestión de Médicos"}
                 </NavLink>
             </li>
 

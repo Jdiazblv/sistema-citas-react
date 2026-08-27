@@ -1,0 +1,133 @@
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f4f6f9;
+}
+
+/* Contenedor principal */
+.container{
+    max-width: 1000px;
+    margin: 30px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+/* Títulos */
+h1{
+    text-align: center;
+}
+
+h2{
+    margin-top: 30px;
+}
+
+/* ===== FORMULARIO ===== */
+
+.registro-form{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(320px,1fr));
+    gap:20px;
+    align-items:start;
+}
+
+/* Cada campo */
+
+.campo{
+    display:flex;
+    flex-direction:column;
+    width:100%;
+}
+
+/* Campos que ocupan toda la fila */
+
+.full-width{
+    grid-column: 1 / -1;
+}
+
+/* Etiquetas */
+
+label{
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+/* Inputs */
+
+input,
+select{
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    box-sizing: border-box;
+}
+
+/* Checkbox */
+
+.checkbox{
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.checkbox input{
+    width:auto;
+}
+
+/* Botón */
+
+.button-container{
+    grid-column: 1 / -1;
+    text-align:center;
+}
+
+button{
+    padding:10px 25px;
+    background:#0077cc;
+    color:white;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+    transition:.2s;
+}
+
+button:hover{
+    background:#005fa3;
+}
+
+/* Tablas */
+
+table{
+    width:100%;
+    margin-top:20px;
+    border-collapse:collapse;
+}
+
+th{
+    background:#0077cc;
+    color:white;
+    padding:10px;
+}
+
+td{
+    padding:10px;
+    text-align:center;
+}
+
+tr:nth-child(even){
+    background:#f2f2f2;
+}
+
+/* Responsive */
+
+@media (max-width:768px){
+
+    .registro-form{
+        grid-template-columns:1fr;
+    }
+
+    .full-width{
+        grid-column:auto;
+    }
+
+}
