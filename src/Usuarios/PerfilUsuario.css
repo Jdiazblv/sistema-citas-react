@@ -1,0 +1,362 @@
+/* Contenedor principal */
+.perfil-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 10px;
+    box-sizing: border-box;
+    color: #1e293b;
+}
+
+/* Encabezado */
+.perfil-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+.perfil-header h1 {
+    margin: 5px 0;
+    color: #0f172a;
+    font-size: 28px;
+}
+
+.perfil-header p {
+    margin: 5px 0;
+    color: #64748b;
+    font-size: 14px;
+}
+
+.perfil-subtitulo {
+    color: #0284c7;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 1.2px;
+}
+
+/* Tarjeta principal */
+.perfil-card {
+    width: 100%;
+    padding: 30px;
+    box-sizing: border-box;
+    background-color: #ffffff;
+    border: 1px solid #dbeafe;
+    border-radius: 16px;
+    box-shadow: 0 5px 20px rgba(15, 23, 42, 0.06);
+}
+
+/* Identidad del usuario */
+.perfil-identidad {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.perfil-avatar {
+    width: 75px;
+    height: 75px;
+    min-width: 75px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #0c4a6e, #0284c7);
+    border: 2px solid #38bdf8;
+    border-radius: 50%;
+    color: white;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.perfil-identidad-info {
+    flex: 1;
+}
+
+.perfil-identidad-info h2 {
+    margin: 0 0 8px;
+    color: #0f172a;
+    font-size: 22px;
+}
+
+.perfil-rol {
+    display: inline-block;
+    padding: 5px 12px;
+    background-color: #e0f2fe;
+    border: 1px solid #bae6fd;
+    border-radius: 20px;
+    color: #0369a1;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+/* Estado de cuenta */
+.perfil-estado {
+    padding: 7px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.estado-activo {
+    background-color: #dcfce7;
+    color: #15803d;
+    border: 1px solid #bbf7d0;
+}
+
+.estado-inactivo {
+    background-color: #fee2e2;
+    color: #b91c1c;
+    border: 1px solid #fecaca;
+}
+
+/* Separadores */
+.perfil-divider {
+    width: 100%;
+    height: 1px;
+    margin: 25px 0;
+    background-color: #e2e8f0;
+}
+
+/* Secciones */
+.perfil-seccion h3 {
+    margin: 0 0 20px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #e0f2fe;
+    color: #0c4a6e;
+    font-size: 17px;
+}
+
+/* Distribución de campos */
+.perfil-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px;
+}
+
+/* Datos en modo consulta */
+.perfil-dato {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 0;
+}
+
+.perfil-dato span {
+    color: #64748b;
+    font-size: 13px;
+}
+
+.perfil-dato strong {
+    overflow-wrap: anywhere;
+    color: #1e293b;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+/* Campos en modo edición */
+.perfil-campo {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 0;
+}
+
+.perfil-campo label {
+    color: #334155;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.perfil-campo input,
+.perfil-campo select {
+    width: 100%;
+    min-height: 44px;
+    padding: 10px 13px;
+    box-sizing: border-box;
+    background-color: #f8fafc;
+    border: 1px solid #cbd5e1;
+    border-radius: 9px;
+    outline: none;
+    color: #1e293b;
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+.perfil-campo input:focus,
+.perfil-campo select:focus {
+    background-color: #ffffff;
+    border-color: #0284c7;
+    box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
+}
+
+/* Texto de estado */
+.texto-activo {
+    color: #15803d !important;
+}
+
+.texto-inactivo {
+    color: #b91c1c !important;
+}
+
+/* Botones */
+.perfil-acciones {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 35px;
+}
+
+.perfil-btn {
+    min-width: 170px;
+    padding: 12px 20px;
+    border: 1px solid transparent;
+    border-radius: 9px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.perfil-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.perfil-btn-editar,
+.perfil-btn-guardar {
+    background-color: #0284c7;
+    border-color: #0284c7;
+    color: white;
+}
+
+.perfil-btn-editar:hover,
+.perfil-btn-guardar:hover {
+    background-color: #0369a1;
+    border-color: #0369a1;
+}
+
+.perfil-btn-volver {
+    background-color: #0f172a;
+    border-color: #1e3a5f;
+    color: #e2e8f0;
+}
+
+.perfil-btn-volver:hover {
+    background-color: #164e63;
+    border-color: #38bdf8;
+    color: #ffffff;
+}
+
+.perfil-btn-cancelar {
+    background-color: #f1f5f9;
+    border-color: #cbd5e1;
+    color: #334155;
+}
+
+.perfil-btn-cancelar:hover {
+    background-color: #e2e8f0;
+}
+
+/* Mensajes */
+.perfil-mensaje {
+    min-height: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    text-align: center;
+}
+
+.perfil-mensaje h2 {
+    color: #0f172a;
+}
+
+.perfil-mensaje p {
+    color: #64748b;
+}
+
+/* Animación de carga */
+.perfil-spinner {
+    width: 35px;
+    height: 35px;
+    border: 4px solid #e0f2fe;
+    border-top-color: #0284c7;
+    border-radius: 50%;
+    animation: perfil-girar 0.8s linear infinite;
+}
+
+@keyframes perfil-girar {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Adaptación a tablets */
+@media (max-width: 768px) {
+
+    .perfil-card {
+        padding: 22px;
+    }
+
+    .perfil-header h1 {
+        font-size: 23px;
+    }
+
+    .perfil-grid {
+        gap: 18px;
+    }
+
+}
+
+/* Adaptación a celulares */
+@media (max-width: 550px) {
+
+    .perfil-container {
+        padding: 5px;
+    }
+
+    .perfil-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .perfil-card {
+        padding: 18px;
+    }
+
+    .perfil-identidad {
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .perfil-avatar {
+        width: 60px;
+        height: 60px;
+        min-width: 60px;
+        font-size: 20px;
+    }
+
+    .perfil-identidad-info h2 {
+        font-size: 17px;
+    }
+
+    .perfil-estado {
+        margin-left: 72px;
+    }
+
+    .perfil-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .perfil-acciones {
+        flex-direction: column;
+    }
+
+    .perfil-btn {
+        width: 100%;
+    }
+
+}

@@ -1,71 +1,90 @@
-body{
-  font-family: Arial, Helvetica, sans-serif;
-  background-color: #f4f6f9;
+/* Contenedor principal del footer */
+.footer-container {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 25px 35px 15px;
+    background-color: #020617;
+    color: #cbd5e1;
+    border-top: 2px solid #164e63;
+    box-shadow: 0 -3px 12px rgba(56, 189, 248, 0.08);
 }
 
-/* contenedor principal */
-.container{
-  width: 800px;
-  margin: auto;
-  background: white;
-  padding: 30px;
-  margin-top: 30px;
-  border-radius: 8px;
+/* Información principal */
+.footer-info {
+    text-align: center;
 }
 
-/* titulos */
-h1{
-  text-align: center;
+/* Nombre del sistema */
+.footer-title {
+    margin: 0 0 10px;
+    color: #38bdf8;
+    font-size: 18px;
+    font-weight: bold;
 }
 
-h2{
-  margin-top: 30px;
+/* Nombre del desarrollador */
+.footer-creator {
+    margin: 5px 0;
+    color: #e2e8f0;
+    font-size: 14px;
 }
 
-/* formularios */
-form div{
-  margin-bottom: 10px;
+/* Información académica */
+.footer-program {
+    margin: 8px 0 15px;
+    color: #94a3b8;
+    font-size: 13px;
+    line-height: 1.6;
 }
 
-/* inputs */
-input, select{
-  width: 100%;
-  padding: 8px;
-  margin-top: 5px;
+/* Línea divisoria */
+.footer-divider {
+    width: 100%;
+    height: 1px;
+    margin: 15px 0;
+    background-color: #164e63;
 }
 
-/* botones */
-button{
-  padding: 10px 15px;
-  background-color: #0077cc;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
+/* Información inferior */
+.footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
 }
 
-button:hover{
-  background-color: #005fa3;
+/* Texto de derechos */
+.footer-bottom p {
+    margin: 0;
+    color: #94a3b8;
+    font-size: 12px;
 }
 
-/* tablas */
-table{
-  width: 100%;
-  margin-top: 15px;
-  border-collapse: collapse;
+/* Versión del sistema */
+.footer-version {
+    padding: 6px 12px;
+    color: #38bdf8;
+    background-color: #0f172a;
+    border: 1px solid #164e63;
+    border-radius: 20px;
+    font-size: 12px;
 }
 
-th{
-  background-color: #0077cc;
-  color: white;
-  padding: 8px;
-}
+/* Adaptación a dispositivos pequeños */
+@media (max-width: 600px) {
 
-td{
-  padding: 8px;
-  text-align: center;
-}
+    .footer-container {
+        padding: 20px 15px 12px;
+    }
 
-tr:nth-child(even){
-  background-color: #f2f2f2;
+    .footer-bottom {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+    }
+
+    .footer-title {
+        font-size: 16px;
+    }
+
 }

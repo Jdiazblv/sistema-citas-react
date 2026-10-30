@@ -1,83 +1,98 @@
+
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
-import { FaHome, FaUserPlus, FaCalendarAlt, FaCalendarPlus, FaCog, FaBars } from "react-icons/fa";
+
+import { useAuth } from "../context/AuthContext";
+
+import {
+    FaHome,
+    FaUserPlus,
+    FaCalendarAlt,
+    FaCalendarPlus,
+    FaCog,
+    FaBars,
+    FaFileMedical,
+    FaUser
+} from "react-icons/fa";
+
 import "./Sidebar.css";
 
+
 function Sidebar() {
-    // Estado para abrir/cerrar
-    
+
+    // Estado para abrir/cerrar el menú
     const [abierta, setAbierta] = useState(true);
 
-    // Función toggle
+    // Obtener el usuario autenticado desde el contexto
+    const { usuario } = useAuth();
+
+    /// Obtener el rol del usuario autenticado
+    const rol = usuario?.rol;
+
+    // Función para abrir o cerrar el menú
     const toggleSidebar = () => {
-    setAbierta(!abierta);
+        setAbierta(!abierta);
     };
 
-    return (
+    // Opciones del menú según el rol
+    const menus = {
+        Administrador: [
+            { texto: "Inicio", ruta: "/dashboard", icono: <FaHome /> },
+            { texto: "Gestión de Usuarios", ruta: "/gestion-usuarios", icono: <FaUserPlus /> },
+            { texto: "Gestión de Pacientes", ruta: "/gestion-pacientes", icono: <FaUserPlus /> },
+            { texto: "Gestión de Médicos", ruta: "/gestion-medicos", icono: <FaUserPlus /> },
+            { texto: "Agendar Cita", ruta: "/agendar-cita", icono: <FaCalendarPlus /> },
+            { texto: "Calendario", ruta: "/calendario", icono: <FaCalendarAlt /> },
+            { texto: "Configuración", ruta: "/configuracion", icono: <FaCog /> }
+        ],
 
+        Recepcionista: [
+            { texto: "Inicio", ruta: "/dashboard", icono: <FaHome /> },
+            { texto: "Gestión de Pacientes", ruta: "/gestion-pacientes", icono: <FaUserPlus /> },
+            { texto: "Gestión de Médicos", ruta: "/gestion-medicos", icono: <FaUserPlus /> },
+            { texto: "Agendar Cita", ruta: "/agendar-cita", icono: <FaCalendarPlus /> },
+            { texto: "Calendario", ruta: "/calendario", icono: <FaCalendarAlt /> }
+        ],
+
+        Medico: [
+            { texto: "Inicio", ruta: "/dashboard", icono: <FaHome /> },
+            { texto: "Mis Citas", ruta: "/calendario", icono: <FaCalendarAlt /> },
+            { texto: "Historias Clínicas", ruta: "/historias-clinicas", icono: <FaFileMedical /> },
+            { texto: "Mi Perfil", ruta: "/configuracion", icono: <FaUser /> }
+        ],
+
+        Paciente: [
+            { texto: "Inicio", ruta: "/dashboard", icono: <FaHome /> },
+            { texto: "Mis Citas", ruta: "/calendario", icono: <FaCalendarAlt /> },
+            { texto: "Mi Perfil", ruta: "/configuracion", icono: <FaUser /> }
+        ]
+    };
+
+    // Obtener las opciones correspondientes al rol
+    const opcionesMenu = menus[rol] || [];
+
+    return (
         <aside className={abierta ? "sidebar abierta" : "sidebar cerrada"}>
 
-        {/* Botón hamburguesa */}
-        <button className="btn-toggle" onClick={toggleSidebar}>
-            <FaBars />
-        </button>
+            {/* Botón hamburguesa */}
+            <button className="btn-toggle" onClick={toggleSidebar}>
+                <FaBars />
+            </button>
 
-        <h3 className="titulo-menu">
-            {abierta ? "Menú" : ""}
-        </h3>
+            <h3 className="titulo-menu">
+                {abierta ? "Menú" : ""}
+            </h3>
 
-        <ul>
-
-            <li>
-                <NavLink to="/dashboard">
-                    <FaHome />
-                    {abierta && " Inicio"}
-                </NavLink>
-            </li>
-
-            <li>
-                <NavLink to="/gestion-usuarios">
-                    <FaUserPlus />
-                    {abierta && " Gestión de Usuarios"}
-                </NavLink>
-            </li>
-
-            <li>
-                <NavLink to="/gestion-pacientes">
-                    <FaUserPlus />
-                    {abierta && " Gestión de Pacientes"}
-                </NavLink>
-            </li>
-
-            <li>
-                <NavLink to="/gestion-medicos">
-                    <FaUserPlus />
-                    {abierta && " Gestión de Médicos"}
-                </NavLink>
-            </li>
-
-            <li>
-                <NavLink to="/agendar-cita">
-                    <FaCalendarPlus />
-                    {abierta && " Agendar Cita"}
-                </NavLink>
-            </li>
-
-            <li>
-                <NavLink to="/calendario">
-                    <FaCalendarAlt />
-                    {abierta && " Calendario"}
-                </NavLink>
-            </li>
-
-            <li>
-                <NavLink to="/configuracion">
-                    <FaCog />
-                    {abierta && " Configuración"}
-                </NavLink>
-            </li>
-
-        </ul>
+            <ul>
+                {opcionesMenu.map((opcion) => (
+                    <li key={opcion.ruta}>
+                        <NavLink to={opcion.ruta}>
+                            {opcion.icono}
+                            {abierta && ` ${opcion.texto}`}
+                        </NavLink>
+                    </li>
+                ))}
+            </ul>
 
         </aside>
     );

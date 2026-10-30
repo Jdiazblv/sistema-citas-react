@@ -1,0 +1,119 @@
+/* Contenedor de navegación */
+.navegacion-interna {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    width: 100%;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #cbd5e1;
+    box-sizing: border-box;
+}
+
+/* Migas de pan */
+.navegacion-migas {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    font-size: 13px;
+}
+
+/* Enlace de inicio */
+.navegacion-inicio {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    color: #0284c7;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.navegacion-inicio:hover {
+    color: #0369a1;
+}
+
+/* Separador */
+.navegacion-separador {
+    color: #94a3b8;
+    font-size: 10px;
+}
+
+/* Rutas anteriores */
+.navegacion-anterior {
+    color: #64748b;
+}
+
+/* Ruta actual */
+.navegacion-actual {
+    color: #0c4a6e;
+    font-weight: 700;
+}
+
+/* Acciones */
+.navegacion-acciones {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Botones */
+.navegacion-btn {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    min-width: 105px;
+    padding: 9px 15px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+/* Volver */
+.navegacion-btn.volver {
+    background-color: #ffffff;
+    border: 1px solid #cbd5e1;
+    color: #334155;
+}
+
+.navegacion-btn.volver:hover {
+    background-color: #e2e8f0;
+    border-color: #94a3b8;
+}
+
+/* Inicio */
+.navegacion-btn.inicio {
+    background-color: #0c2a40;
+    border: 1px solid #164e63;
+    color: #38bdf8;
+}
+
+.navegacion-btn.inicio:hover {
+    background-color: #164e63;
+    border-color: #38bdf8;
+    color: #ffffff;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+
+    .navegacion-interna {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .navegacion-acciones {
+        width: 100%;
+    }
+
+    .navegacion-btn {
+        flex: 1;
+    }
+
+}

@@ -28,10 +28,17 @@
 /* Icono hamburguesa */
 
 .usuario-icono {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 
   font-size: 26px;
   cursor: pointer;
+}
 
+.nombre-navbar {
+  font-size: 20px;
+  font-weight: 500;
 }
 
 

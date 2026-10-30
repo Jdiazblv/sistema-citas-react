@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaSearch, FaEllipsisV } from 'react-icons/fa';
+import { FaSearch } from 'react-icons/fa';
 import "./GestionPacientes.css";
 import api from "../services/api";
 
@@ -10,15 +10,6 @@ function GestionPacientes({ listaPacientes, setListaPacientes }) {
 
     // Estado para la búsqueda
     const [busqueda, setBusqueda] = useState('');
-
-    // Estado para guardar todo el objeto del paciente seleccionado
-    const [pacienteSeleccionado, setPacienteSeleccionado] = useState(null);
-
-    // Varqiable para mostrar la ventana de ver
-    const [mostrarModal, setMostrarModal] = useState(false);
-
-    // Estado para el menú de acciones que selecciona al paciente al pulsar
-    const [menuAbierto, setMenuAbierto] = useState(null);
     
     const obtenerPacientes = async () => {
 
@@ -114,30 +105,12 @@ function GestionPacientes({ listaPacientes, setListaPacientes }) {
 
                                 <td className = "celda-acciones">
 
-                                    <button 
-                                        className = "btn-menu"
-                                        onClick = {() => setMenuAbierto(menuAbierto === index ? null : index)}  
+                                    <button
+                                        className = "btn-ver"
+                                        onClick = {() => navigate(`/perfil-paciente/${p._id}`)}
                                     >
-                                        <FaEllipsisV />
-
+                                        Ver
                                     </button>
-
-                                    {menuAbierto === index && (
-                                        
-                                        <div className = "menu-dropdown">
-                                            
-                                            <button
-                                                onClick={() => navigate(`/perfil-paciente/${p._id}`)}
-                                            >
-                                                Ver
-                                            </button>
-
-                                            <button>Editar</button>
-                                            <button>Agendar Cita</button>
-                                            <button>Desactivar</button>
-
-                                        </div>
-                                    )}
 
                                 </td>
 

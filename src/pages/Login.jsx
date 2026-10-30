@@ -2,64 +2,84 @@ import React, {useState} from "react";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
 import { Link } from "react-router-dom";
+import api from "../services/api";
+
+// Importar el hook useAuth desde el contexto de autenticación
+import { useAuth } from "../context/AuthContext";
 
 function Login() {
 
     // Hook dentro del componente
-    const navigate = useNavigate();
+
+        // Obtener la función iniciarSesion del contexto de autenticación
+        const { iniciarSesion } = useAuth();
+        // Hook para navegar entre rutas
+        const navigate = useNavigate();
+
 
     // Estados
-    const [usuario, setUsuario] = useState("");
-    const [password, setPassword] = useState("");
-    const [error, setError] = useState("");
-    const [mostrarPassword, setMostrarPassword] = useState(false);
 
-    function manejarLogin(e) {
+        // Estado para el usuario
+        const [usuario, setUsuario] = useState("");
 
-        e.preventDefault();
+        // Estado para la contraseña
+        const [password, setPassword] = useState("");
 
-        // Validar campos vacios
-        if(!usuario || !password) {
-            setError("Complete todos los campos.");
-            return;
+        // Estado para mostrar mensajes de error
+        const [error, setError] = useState("");
+
+        // Estado para mostrar u ocultar la contraseña
+        const [mostrarPassword, setMostrarPassword] = useState(false);
+
+        // Estado para mostrar mensajes de error del documento
+        const [errorDocumento, setErrorDocumento] = useState("");
+
+
+        // Función para manejar el login
+        async function manejarLogin(e) {
+
+            // Evitar que el formulario se recargue
+            e.preventDefault();
+
+            // Validar campos vacíos
+            if (!usuario || !password) {
+                setError("Complete todos los campos.");
+                return;
+            }
+
+            try {
+                // Enviar las credenciales al backend
+                const respuesta = await api.post("/login", {
+                    documento: usuario,
+                    password: password
+                });
+
+                // Obtener el token y los datos del usuario desde la respuesta
+                const { token, usuario: datosUsuario } = respuesta.data;
+
+                // Guardar la sesión mediante el contexto
+                iniciarSesion(token, datosUsuario);
+
+                // Limpiar el mensaje de error
+                setError("");
+
+                // Continuar al panel principal
+                navigate("/dashboard");
+
+            } catch (error) {
+                if (error.response?.status === 401) {
+                    setError("Documento o contraseña incorrectos.");
+                } else {
+                    setError(
+                        error.response?.data?.mensaje ||
+                        "No fue posible iniciar sesión. Verifique la conexión con el servidor."
+                    );
+                }
+            }
         }
-
-        // Leer usuario guardado
-        const usuarioGuardado = JSON.parse(
-            localStorage.getItem("usuarioRegistrado")
-        );
-
-        // Verificar si existe el usuario
-        if(!usuarioGuardado) {
-            setError("No hay usuarios registrados.");
-            return;
-        }
-
-        // Validar documento y contraseña
-
-        if (usuario === usuarioGuardado.documento && password === usuarioGuardado.password) {
-            // Guardar sesión
-            localStorage.setItem(
-                "usuarioLogueado","true"
-            );
-
-            // Guardar nombre real
-
-            localStorage.setItem(
-                "usuarioNombre",
-                usuarioGuardado.nombres
-            );
-
-            alert("Inicio de sesión exitoso");
-            navigate("/dashboard");
-        }
-        else {
-            setError("Documento o contraseña incorrectos.");
-        }
-
-    }
 
     return (
+
         <div className="login-container">
             <div className="login-card">
 
@@ -68,7 +88,7 @@ function Login() {
                 </h2>
 
                 <p>
-                    Gestion de Citas Medicas
+                   ¯ Gestion de Citas Medicas
                 </p>
 
                 <form onSubmit={manejarLogin}>
@@ -76,16 +96,40 @@ function Login() {
                     <label>Documento *</label>
 
                     {/* Usuario */}
+
                     <input
                         type="text"
                         placeholder="Ingrese su documento"
                         value={usuario}
-                        onChange={(e) => 
-                            setUsuario (e.target.value)
-                        }
-                        
+
+                        // Validación del documento (solo números y 10 dígitos)
+                        onChange={(e) => {
+                            const valor = e.target.value;
+
+                            setUsuario(valor);
+
+                            if (!valor) {
+                                setErrorDocumento("Ingrese su documento.");
+                            } else if (!/^\d+$/.test(valor)) {
+                                setErrorDocumento("El documento debe contener solo números.");
+                            } else if (valor.length !== 10) {
+                                setErrorDocumento("La cédula debe tener 10 dígitos.");
+                            } else {
+                                setErrorDocumento("");
+                            }
+
+                            setError("");
+                        }}
+                        // Mostrar mensaje de error del documento
+                        inputMode="numeric"
                         className={error ? "input-error" : ""}
                     />
+
+                    {errorDocumento && (
+                        <p className="error-text">
+                            {errorDocumento}
+                        </p>
+                    )}
 
                     <label>Contraseña *</label>
 

@@ -1,16 +1,21 @@
+/* Contenedor principal de toda la aplicación */
 .layout-container {
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    min-height: 100vh;
 }
 
+/* Contenedor de la sidebar y el contenido */
 .layout-body {
     display: flex;
     flex: 1;
+    min-height: 0;
 }
 
+/* Área donde se muestran las páginas */
 .layout-content {
     flex: 1;
+    min-width: 0;
     padding: 20px;
     background-color: #f4f6f9;
 }

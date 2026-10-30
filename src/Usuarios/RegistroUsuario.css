@@ -1,0 +1,228 @@
+
+/* ===== CONTENEDOR PRINCIPAL ===== */
+
+.registro-container {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+    box-sizing: border-box;
+
+    background: linear-gradient(
+        135deg,
+        #020617,
+        #0f172a
+    );
+}
+
+/* ===== TARJETA DE REGISTRO ===== */
+
+.registro-card {
+    width: 100%;
+    max-width: 1000px;
+    background-color: #020617;
+    padding: 35px;
+    border-radius: 15px;
+    border: 2px solid #38bdf8;
+    color: white;
+    box-sizing: border-box;
+    box-shadow: 0 0 20px rgba(56, 189, 248, 0.10);
+}
+
+/* ===== TÍTULO PRINCIPAL ===== */
+
+.registro-card h2 {
+    text-align: center;
+    color: #38bdf8;
+    margin-top: 0;
+    margin-bottom: 30px;
+    font-size: 26px;
+}
+
+/* ===== FORMULARIO ===== */
+
+.registro-card form {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+    align-items: start;
+}
+
+/* ===== TÍTULOS DE SECCIÓN ===== */
+
+.registro-card h3 {
+    grid-column: 1 / -1;
+    color: #38bdf8;
+    font-size: 18px;
+    margin: 10px 0 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #1e3a5f;
+}
+
+/* ===== CAMPOS ===== */
+
+.registro-card .campo {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 0;
+    min-width: 0;
+}
+
+/* ===== ETIQUETAS ===== */
+
+.registro-card .campo label {
+    font-size: 13px;
+    margin-bottom: 7px;
+    color: #38bdf8;
+    font-weight: bold;
+}
+
+/* ===== INPUTS Y SELECTS ===== */
+
+.registro-card .campo input,
+.registro-card .campo select {
+    width: 100%;
+    padding: 12px 15px;
+    box-sizing: border-box;
+    border-radius: 25px;
+    border: 2px solid #38bdf8;
+    background-color: #0f172a;
+    color: white;
+    outline: none;
+    font-size: 14px;
+    transition: 0.2s;
+}
+
+/* Efecto al seleccionar un campo */
+
+.registro-card .campo input:focus,
+.registro-card .campo select:focus {
+    border-color: #7dd3fc;
+    box-shadow: 0 0 6px rgba(56, 189, 248, 0.35);
+}
+
+/* Opciones de los select */
+
+.registro-card .campo select option {
+    background-color: #0f172a;
+    color: white;
+}
+
+/* ===== ERRORES ===== */
+
+.registro-card .error {
+    color: #f87171;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+.registro-card .input-error {
+    border: 2px solid #ef4444 !important;
+}
+
+/* ===== MOSTRAR CONTRASEÑA ===== */
+
+.registro-card .mostrar-password {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: -10px;
+    margin-bottom: 5px;
+}
+
+.registro-card .mostrar-password input {
+    width: auto;
+    margin: 0;
+    accent-color: #38bdf8;
+    cursor: pointer;
+}
+
+.registro-card .mostrar-password label {
+    color: #cbd5e1;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+/* ===== NOTA INFORMATIVA ===== */
+
+.registro-card .nota {
+    grid-column: 1 / -1;
+    font-size: 12px;
+    margin: 0;
+    color: #94a3b8;
+}
+
+/* ===== BOTONES ===== */
+
+.registro-card .botones-registro {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Estilo individual de los botones */
+
+.registro-card .botones-registro button {
+    width: 200px;
+    padding: 12px;
+    margin: 0;
+    border: none;
+    border-radius: 25px;
+    background-color: #38bdf8;
+    color: #020617;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+/* Efecto al pasar el cursor */
+
+.registro-card .botones-registro button:hover {
+    background-color: #7dd3fc;
+    transform: translateY(-2px);
+}
+
+/* ===== RESPONSIVE ===== */
+
+@media (max-width: 768px) {
+
+    .registro-container {
+        align-items: flex-start;
+        padding: 20px 12px;
+    }
+
+    .registro-card {
+        padding: 25px 18px;
+    }
+
+    .registro-card form {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .registro-card h3,
+    .registro-card .mostrar-password,
+    .registro-card .nota,
+    .registro-card .botones-registro {
+        grid-column: 1;
+    }
+
+    /* Botones uno debajo del otro en pantallas pequeñas */
+
+    .registro-card .botones-registro {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .registro-card .botones-registro button {
+        width: 100%;
+    }
+}

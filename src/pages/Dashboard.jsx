@@ -1,115 +1,57 @@
-import React, {useEffect} from "react";
+
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+
+import AdminDashboard from "./Dashboards/AdminDashboard";
+import RecepcionistaDashboard from "./Dashboards/RecepcionistaDashboard";
+import MedicoDashboard from "./Dashboards/MedicoDashboard";
+import PacienteDashboard from "./Dashboards/PacienteDashboard";
 
 import "./Dashboard.css";
 
 function Dashboard() {
 
-  const navigate = useNavigate();
+    const navigate = useNavigate();
 
-  useEffect(() => {
+    // Obtener los datos del usuario que inició sesión
+    const usuarioGuardado = JSON.parse(
+        localStorage.getItem("usuario") || "null"
+    );
 
-    const usuarioLogueado = localStorage.getItem("usuarioLogueado");
+    const rol = usuarioGuardado?.rol;
 
-    if(!usuarioLogueado) {
-      navigate("/");
+    // Verificar que exista una sesión
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        const usuarioLogueado = localStorage.getItem("usuarioLogueado");
+
+        if (!token || usuarioLogueado !== "true") {
+            navigate("/", { replace: true });
+        }
+    }, [navigate]);
+
+    // Mostrar el panel correspondiente al rol
+    switch (rol) {
+        case "Administrador":
+            return <AdminDashboard />;
+
+        case "Recepcionista":
+            return <RecepcionistaDashboard />;
+
+        case "Medico":
+            return <MedicoDashboard />;
+
+        case "Paciente":
+            return <PacienteDashboard />;
+
+        default:
+            return (
+                <div className="panel-principal">
+                    <h1>Panel Principal</h1>
+                    <p>No se reconoce el rol de este usuario.</p>
+                </div>
+            );
     }
-  }, [navigate]);
-  
-  return (
-  
-    <div className="panel-principal">
-
-      <h1>Panel Principal</h1>
-
-      {/* Tarjetas */}
-
-      <div className="cards">
-
-        {/* Citas programadas*/}
-        <div 
-          className="card azul"
-          onClick={() => navigate("/agendar-cita")}
-        >
-          <h2>147</h2>
-          <p>Citas programadas</p>
-        </div>
-
-        {/* Total de pacientes */}
-        <div 
-          className="card verde"
-          onClick={() => navigate("/registro-paciente")}
-        >
-          <h2>120</h2>
-          <p>Total pacientes</p>
-        </div>
-
-        {/* Médicos disponibles */}
-        <div 
-          className="card morado"
-          onClick={() => navigate("/configuracion")}
-        >
-          <h2>8</h2>
-          <p>Médicos disponibles</p>
-        </div>
-
-        {/* Citas para hoy */}
-        <div 
-          className="card celeste"
-          onClick={() => navigate("/calendario")}
-        >
-          <h2>25</h2>
-          <p>Citas para hoy</p>
-        </div>
-
-      </div>
-
-      {/* Tabla dinamica */}
-
-      <div className="table-citas">
-
-        <h2>Citas pendientes</h2>
-
-        <table>
-          <thead>
-
-            <tr>
-              <th>Paciente</th>
-              <th>Fecha</th>
-              <th>Médico</th>
-              <th>Estado</th>
-            </tr>
-          </thead>
-
-          <tbody>
-
-            <tr>
-              <td>Andrea Torres</td>
-              <td>14/05/2026</td>
-              <td>Dr.Perez</td>
-              <td className="pendiente">Pendiente</td>
-            </tr>
-            
-            <tr>
-              <td>Ricardo Gómez</td>
-              <td>12/06/2026</td>
-              <td>Dr. Silva</td>
-              <td className="confirmada">Confirmada</td>
-            </tr>
-
-            <tr>
-              <td>Carlos Hernández</td>
-              <td>Hoy</td>
-              <td>Dr. Silva</td>
-              <td className="cancelada">Cancelada</td>
-            </tr>
-
-          </tbody>
-        </table>
-
-      </div>
-    </div>
-  );
 }
 
 export default Dashboard;

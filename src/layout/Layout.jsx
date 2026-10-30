@@ -5,31 +5,44 @@ import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
 import Footer from "./Footer";
 
+import NavegacionInterna from "../componentes/navegacion/NavegacionInterna";
+
 import "./Layout.css";
 
+
 function Layout() {
-    
     return (
-    <div className="layout-container">
 
-        {/* Navbar superior */}
-        <Navbar />
+        <div className="layout-container">
 
-        <div className="layout-body">
+            {/* Barra de navegación superior */}
+            <Navbar />
 
-        {/* Sidebar lateral */}
-        <Sidebar />
+            <div className="layout-body">
 
-        {/* Contenido dinámico */}
-        <main className="layout-content">
-            <Outlet />
-        </main>
+                {/* Menú lateral */}
+                <Sidebar />
+
+                {/* Contenido de la página actual */}
+                <main className="layout-content">
+
+                    {/* Navegación interna */}
+                    <NavegacionInterna />
+
+                    {/* Contenido de la página actual */}
+                    <Outlet />
+
+                </main>
+
+            </div>
+
+            {/* Pie de página */}
+            <Footer />
 
         </div>
-        {/* Footer inferior */}
-        <Footer />
-        </div>
+
     );
 }
+
 
 export default Layout;

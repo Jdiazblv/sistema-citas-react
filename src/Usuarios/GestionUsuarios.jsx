@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaSearch, FaEllipsisV } from 'react-icons/fa';
+import { FaSearch } from 'react-icons/fa';
 import "./GestionUsuarios.css";
 import api from "../services/api";
 
@@ -11,35 +11,30 @@ function GestionUsuarios({ listaUsuarios, setListaUsuarios }) {
     // Estado para la búsqueda
     const [busqueda, setBusqueda] = useState('');
 
-    // Estado para guardar todo el objeto del usuario seleccionado
-    const [usuarioSeleccionado, setUsuarioSeleccionado] = useState(null);
-
-    // Varqiable para mostrar la ventana de ver
-    const [mostrarModal, setMostrarModal] = useState(false);
-
-    // Estado para el menú de acciones que selecciona al usuario al pulsar
-    const [menuAbierto, setMenuAbierto] = useState(null);
-    
-    const obtenerUsuarios = async () => {
-
-        try {
-
-            const respuesta = await api.get('/usuarios');
-            setListaUsuarios(respuesta.data);
-            
-        } catch (error) {
-            console.error(error);
-        }
-    }
-
+    // Cargar los usuarios al montar el componente
     useEffect(() => {
-        obtenerUsuarios();
-    }, []);
+
+        const cargarUsuarios = async () => {
+
+            try {
+
+                const respuesta = await api.get('/users');
+                setListaUsuarios(respuesta.data);
+                console.log("Usuarios recibidos:", respuesta.data);
+
+            } catch (error) {
+                console.error(error);
+            }
+
+        };
+
+        cargarUsuarios();
+
+    }, [setListaUsuarios]);
+
 
     const usuariosFiltrados = (listaUsuarios || []).filter(((p) => {
 
-        if (p.rol !== "usuario") return false;
-        
             const texto = busqueda.toLowerCase();
 
             return (
@@ -77,7 +72,7 @@ function GestionUsuarios({ listaUsuarios, setListaUsuarios }) {
 
                 <button 
                     className = "btn-nuevo"
-                    onClick = {() => navigate('/registro-usuario')}
+                    onClick={() => navigate('/RegistroUsuario')}
                 >
                     Nuevo Usuario
                 </button>
@@ -110,33 +105,13 @@ function GestionUsuarios({ listaUsuarios, setListaUsuarios }) {
                                 <td>{p.documento}</td>
                                 <td>{p.telefono}</td>
 
-                                <td className = "celda-acciones">
-
-                                    <button 
-                                        className = "btn-menu"
-                                        onClick = {() => setMenuAbierto(menuAbierto === index ? null : index)}  
+                                <td className="celda-acciones">
+                                    <button
+                                        className="btn-ver"
+                                        onClick={() => navigate(`/perfil-usuario/${p._id}`)}
                                     >
-                                        <FaEllipsisV />
-
+                                        Ver
                                     </button>
-
-                                    {menuAbierto === index && (
-                                        
-                                        <div className = "menu-dropdown">
-                                            
-                                            <button
-                                                onClick={() => navigate(`/perfil-usuario/${p._id}`)}
-                                            >
-                                                Ver
-                                            </button>
-
-                                            <button>Editar</button>
-                                            <button>Agendar Cita</button>
-                                            <button>Desactivar</button>
-
-                                        </div>
-                                    )}
-
                                 </td>
 
                             </tr>

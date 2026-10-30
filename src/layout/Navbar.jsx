@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaUser, FaSignOutAlt } from "react-icons/fa";
 
-import "./Navbar.css";
+import { useAuth } from "../context/AuthContext";
 
+import "./Navbar.css";
 import perfil from "../assets/perfil.jpg";
 
 function Navbar() {
@@ -11,32 +12,34 @@ function Navbar() {
     const [menuAbierto, setMenuAbierto] = useState(false);
     const navigate = useNavigate();
 
-    // Obtener datos del usuario
-    const usuarioGuardado = JSON.parse(
-        localStorage.getItem("usuarioRegistrado")
-    );
+    // Obtener los datos y funciones del contexto de autenticación
+    const { usuario, cerrarSesion } = useAuth();
 
     // Datos individuales
-    const nombres = usuarioGuardado?.nombres;
-    const apellidos = usuarioGuardado?.apellidos;
-    const rol = usuarioGuardado?.rol;
-    const documento = usuarioGuardado?.documento;
+    const nombres = usuario?.nombres;
+    const apellidos = usuario?.apellidos;
+    const rol = usuario?.rol;
+    const documento = usuario?.documento;
 
     // Nombre completo
-    const nombreCompleto = `${nombres} ${apellidos}`;
+    // Combinar nombres y apellidos, manejando posibles valores nulos o indefinidos
+    const nombreCompleto = [nombres, apellidos]
+        .filter(Boolean)
+        .join(" ");
 
-    // Cambiar nombres del rol por unos validos
-    let rolMostrar = "";
+    // Mostrar el nombre del rol
+    const roles = {
+        Administrador: "Administrador",
+        Recepcionista: "Recepcionista",
+        Medico: "Médico",
+        Paciente: "Paciente"
+    };
 
-    if (rol === "adimin") {
-        rolMostrar = "Administrador";
-    }
-    else if (rol === "recepc"){
-        rolMostrar = "Recepcionista"
-    }
+    const rolMostrar = roles[rol] || "Usuario";
 
-    function cerrarSesion() {
-        localStorage.removeItem("usuarioLogueado");
+    // Función para cerrar sesión
+    function manejarCierreSesion() {
+        cerrarSesion();
         navigate("/");
     }
 
@@ -48,15 +51,17 @@ function Navbar() {
                 Clínica Médica
             </h2>
 
-            {/* Icono usuario desplegable */}
+            {/* Usuario y menú desplegable */}
             <div
                 className="usuario-icono"
-                onClick={() =>
-                    setMenuAbierto(!menuAbierto)
-                }
+                onClick={() => setMenuAbierto(!menuAbierto)}
             >
-                {/* Icono de usuario */ }
+                <span className="nombre-navbar">
+                    {nombreCompleto || "Usuario"}
+                </span>
+
                 <FaUser />
+                
             </div>
 
             {/* Menu */}
@@ -96,7 +101,7 @@ function Navbar() {
                     < FaSignOutAlt />
                     <button 
                         className="btn-logout"
-                        onClick={cerrarSesion}
+                        onClick={manejarCierreSesion}
                     >
                         Cerrar Sesion
                     </button>
