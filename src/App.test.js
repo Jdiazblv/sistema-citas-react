@@ -1,8 +1,9 @@
 import { render, screen } from '@testing-library/react';
-import App from './App';
+import CamposPerfil from './componentes/usuarios/CamposPerfil';
 
-test('renders learn react link', () => {
-  render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+test('administradores y recepcionistas no necesitan datos de un perfil clínico', () => {
+    const { rerender } = render(<CamposPerfil rol="Administrador" datos={{}} onChange={() => {}} />);
+    expect(screen.queryByRole('textbox')).toBeNull();
+    rerender(<CamposPerfil rol="Recepcionista" datos={{}} onChange={() => {}} />);
+    expect(screen.queryByRole('textbox')).toBeNull();
 });

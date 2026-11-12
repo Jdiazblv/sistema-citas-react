@@ -43,6 +43,8 @@ import PerfilPaciente from "./pacientes/PerfilPaciente";
 // ==========================================
 
 import GestionMedicos from "./Medicos/GestionMedicos";
+import PerfilMedico from "./Medicos/PerfilMedico";
+import RegistroMedicos from "./Medicos/RegistroMedicos";
 
 
 // ==========================================
@@ -157,6 +159,7 @@ function App() {
                                     element={<PerfilUsuario />}
                                 />
 
+                                <Route path="/registro-medico" element={<RegistroMedicos />} />
                             </Route>
 
 
@@ -188,12 +191,7 @@ function App() {
                                 {/* Registro de pacientes */}
                                 <Route
                                     path="/registro-paciente"
-                                    element={
-                                        <RegistroPacientes
-                                            listaPacientes={listaPacientes}
-                                            setListaPacientes={setListaPacientes}
-                                        />
-                                    }
+                                    element={<RegistroPacientes />}
                                 />
 
                                 {/* Perfil de paciente */}
@@ -212,6 +210,8 @@ function App() {
                                         />
                                     }
                                 />
+
+                                <Route path="/perfil-medico/:id" element={<PerfilMedico />} />
 
                                 {/* Agendamiento de citas */}
                                 <Route

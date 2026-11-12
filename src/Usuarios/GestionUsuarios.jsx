@@ -1,129 +1,53 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { FaSearch } from 'react-icons/fa';
-import "./GestionUsuarios.css";
+import React, { useState, useEffect } from "react";
 import api from "../services/api";
+import ListadoGestion from "../componentes/gestion/ListadoGestion";
 
 function GestionUsuarios({ listaUsuarios, setListaUsuarios }) {
-    
-    const navigate = useNavigate();
+    const [busqueda, setBusqueda] = useState("");
+    const [cargando, setCargando] = useState(true);
+    const [error, setError] = useState("");
 
-    // Estado para la búsqueda
-    const [busqueda, setBusqueda] = useState('');
-
-    // Cargar los usuarios al montar el componente
     useEffect(() => {
-
-        const cargarUsuarios = async () => {
-
-            try {
-
-                const respuesta = await api.get('/users');
-                setListaUsuarios(respuesta.data);
-                console.log("Usuarios recibidos:", respuesta.data);
-
-            } catch (error) {
-                console.error(error);
-            }
-
-        };
-
-        cargarUsuarios();
-
+        let vigente = true;
+        api.get("/users").then(({ data }) => {
+            if (vigente) setListaUsuarios(data);
+        }).catch(error => {
+            if (vigente) setError(error.response?.data?.mensaje || "No fue posible cargar los usuarios.");
+        }).finally(() => { if (vigente) setCargando(false); });
+        return () => { vigente = false; };
     }, [setListaUsuarios]);
 
+    const texto = busqueda.trim().toLowerCase();
+    const filas = (listaUsuarios || []).flatMap((cuenta) => {
+        const nombre = [cuenta.nombres, cuenta.apellidos].filter(Boolean).join(" ");
+        const coincide = [nombre, cuenta.documento, cuenta.correo, cuenta.rol].some(
+            (valor) => String(valor || "").toLowerCase().includes(texto)
+        );
+        if (!coincide) return [];
 
-    const usuariosFiltrados = (listaUsuarios || []).filter(((p) => {
-
-            const texto = busqueda.toLowerCase();
-
-            return (
-                p.nombres.toLowerCase().includes(texto) ||
-                p.apellidos.toLowerCase().includes(texto) ||
-                p.documento.toLowerCase().includes(texto)
-            );
-    }));
+        return [{
+            id: cuenta._id,
+            celdas: [nombre, cuenta.rol, cuenta.documento, cuenta.telefono],
+            activo: cuenta.activo,
+            rutaPerfil: `/perfil-usuario/${cuenta._id}`
+        }];
+    });
 
     return (
-        
-        <div className = "container">
-
-            <h2>Gestión de Usuarios</h2>
-
-            <br />
-
-            <h3>Usuarios Registrados</h3>
-
-
-            <div className = "barra-superior">
-
-                <div className = "buscador">
-
-                    <FaSearch className = "icono-busqueda" />
-
-                    <input
-                        type = "text"
-                        placeholder = "Buscar usuario por nombre o documento"
-                        value = {busqueda}
-                        onChange = {(e) => setBusqueda(e.target.value)}
-                    />
-
-                </div>
-
-                <button 
-                    className = "btn-nuevo"
-                    onClick={() => navigate('/RegistroUsuario')}
-                >
-                    Nuevo Usuario
-                </button>
-
-            </div>
-
-            <br />
-            <br />
-
-            <table className = "tabla-usuarios">
-
-                <thead>
-                    <tr>
-                        <th>Nombre</th>
-                        <th>EPS</th>
-                        <th>Documento</th>
-                        <th>Teléfono</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-
-                    {usuariosFiltrados.map((p, index) => (
-
-                            <tr key = {index}>
-
-                                <td>{p.nombres} {p.apellidos}</td>
-                                <td>{p.eps}</td>
-                                <td>{p.documento}</td>
-                                <td>{p.telefono}</td>
-
-                                <td className="celda-acciones">
-                                    <button
-                                        className="btn-ver"
-                                        onClick={() => navigate(`/perfil-usuario/${p._id}`)}
-                                    >
-                                        Ver
-                                    </button>
-                                </td>
-
-                            </tr>
-                        ))}
-
-                </tbody>
-
-            </table>
-
-        </div>
+        <ListadoGestion
+            titulo="Gestión de Usuarios"
+            entidad="usuarios"
+            rutaNuevo="/RegistroUsuario"
+            textoNuevo="Nuevo usuario"
+            busqueda={busqueda}
+            setBusqueda={setBusqueda}
+            placeholder="Buscar por nombre, documento, correo o rol"
+            columnas={["Nombre", "Rol", "Documento", "Teléfono"]}
+            filas={filas}
+            cargando={cargando}
+            error={error}
+        />
     );
-
 }
 
 export default GestionUsuarios;

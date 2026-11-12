@@ -17,7 +17,7 @@ api.interceptors.request.use(
         const token = localStorage.getItem("token");
 
         // Si existe el token, agregarlo a la cabecera de la petición
-        if (token) {
+        if (token && !config.sinSesion) {
             config.headers.Authorization = `Bearer ${token}`;
         }
 
@@ -42,13 +42,13 @@ api.interceptors.response.use(
         // Obtener el código de respuesta del servidor
         const estado = error.response?.status;
 
-        // Comprobar si la petición llevaba un token
-        const teniaToken = Boolean(
-            error.config?.headers?.Authorization
-        );
+        // Una respuesta tardía de otra cuenta no debe cerrar la sesión actual.
+        const tokenActual = localStorage.getItem("token");
+        const correspondeASesionActual = tokenActual &&
+            error.config?.headers?.Authorization === `Bearer ${tokenActual}`;
 
         // Detectar si el servidor rechazó la sesión
-        if (estado === 401 && teniaToken) {
+        if (estado === 401 && !error.config?.sinSesion && correspondeASesionActual) {
 
             // Eliminar los datos de la sesión
             localStorage.removeItem("token");

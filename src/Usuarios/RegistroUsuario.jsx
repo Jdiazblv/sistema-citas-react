@@ -2,12 +2,17 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../services/api";
+import CamposPerfil from "../componentes/usuarios/CamposPerfil";
 
 import "./RegistroUsuario.css";
 
-function RegistroUsuario() {
+function RegistroUsuario({ registroPaciente = false, registroMedico = false }) {
 
     const navigate = useNavigate();
+    const rolFijo = registroPaciente ? "Paciente" : registroMedico ? "Medico" : "";
+    const rutaListado = registroPaciente ? "/gestion-pacientes" : registroMedico ? "/gestion-medicos" : "/gestion-usuarios";
+    const rutaRegistro = registroPaciente ? "/pacientes" : registroMedico ? "/medicos" : "/users";
+    const [guardando, setGuardando] = useState(false);
 
     // Estado para mostrar u ocultar las contraseñas
     const [mostrarPassword, setMostrarPassword] = useState(false);
@@ -16,14 +21,15 @@ function RegistroUsuario() {
     const [formData, setFormData] = useState({
         nombres: "",
         apellidos: "",
-        rol: "",
+        rol: rolFijo,
         tipoDocumento: "",
         documento: "",
         correo: "",
         telefono: "",
         fechaNacimiento: "",
         password: "",
-        confirmarPassword: ""
+        confirmarPassword: "",
+        sexo: "", eps: "", direccion: "", especialidades: "", registroProfesional: ""
     });
 
     // Estado para almacenar los errores de validación
@@ -33,7 +39,8 @@ function RegistroUsuario() {
     // Manejar cambios en los campos del formulario
     function handleChange(e) {
 
-        const { name, value } = e.target;
+        const { name, value: valorIngresado } = e.target;
+        const value = name === "telefono" ? valorIngresado.replace(/\D/g, "") : valorIngresado;
 
         // Actualizar el valor del campo modificado
         const nuevosDatos = {
@@ -93,7 +100,7 @@ function RegistroUsuario() {
             if (!value) {
                 nuevosErrores.documento = "Ingrese su documento";
             }
-            else if (value.length < 10) {
+            else if (!/^\d+$/.test(value)) {
                 nuevosErrores.documento = "Documento inválido";
             }
             else {
@@ -108,7 +115,7 @@ function RegistroUsuario() {
                 nuevosErrores.telefono = "Ingrese su teléfono";
             }
             else if (value.length < 10) {
-                nuevosErrores.telefono = "Ingrese un teléfono válido";
+                nuevosErrores.telefono = "Ingrese al menos 10 dígitos.";
             }
             else {
                 delete nuevosErrores.telefono;
@@ -193,6 +200,7 @@ function RegistroUsuario() {
     async function handleSubmit(e) {
 
         e.preventDefault();
+        if (guardando) return;
 
         // Crear un objeto para almacenar los errores
         let nuevosErrores = {};
@@ -222,17 +230,17 @@ function RegistroUsuario() {
         if (!formData.documento) {
             nuevosErrores.documento = "Ingrese su documento";
         }
-        else if (formData.documento.length <= 9) {
+        else if (!/^\d+$/.test(formData.documento)) {
             nuevosErrores.documento =
-                "El documento debe tener mínimo 10 caracteres";
+                "El documento debe contener solo números";
         }
 
         // Validar teléfono
         if (!formData.telefono) {
             nuevosErrores.telefono = "Ingrese su teléfono";
         }
-        else if (formData.telefono.length <= 9) {
-            nuevosErrores.telefono = "Ingrese un teléfono válido";
+        else if (!/^\d{10,}$/.test(formData.telefono)) {
+            nuevosErrores.telefono = "Ingrese al menos 10 dígitos, solo números.";
         }
 
         // Validar correo electrónico
@@ -270,6 +278,13 @@ function RegistroUsuario() {
                 "Las contraseñas no coinciden";
         }
 
+        if (formData.rol === "Paciente" && (!formData.sexo || !formData.direccion.trim())) {
+            nuevosErrores.perfil = "Complete el sexo y la dirección del paciente.";
+        }
+        if (formData.rol === "Medico" && (!formData.registroProfesional.trim() || !formData.especialidades.split(",").some(e => e.trim()))) {
+            nuevosErrores.perfil = "Complete el registro profesional y al menos una especialidad.";
+        }
+
         // Actualizar los errores encontrados
         setErrores(nuevosErrores);
 
@@ -278,11 +293,16 @@ function RegistroUsuario() {
 
             try {
 
+                setGuardando(true);
                 // Excluir confirmarPassword porque solo se utiliza para validar
-                const { confirmarPassword, ...datosUsuario } = formData;
+                const { confirmarPassword, sexo, eps, direccion, especialidades, registroProfesional, ...datosUsuario } = formData;
+                if (formData.rol === "Paciente") Object.assign(datosUsuario, { sexo, eps, direccion });
+                if (formData.rol === "Medico") Object.assign(datosUsuario, {
+                    especialidades: especialidades.split(",").map(e => e.trim()).filter(Boolean), registroProfesional
+                });
 
                 // Enviar los datos al backend
-                const respuesta = await api.post("/users", datosUsuario);
+                const respuesta = await api.post(rutaRegistro, datosUsuario);
 
                 // Mostrar mensaje de confirmación
                 alert(
@@ -291,7 +311,7 @@ function RegistroUsuario() {
                 );
 
                 // Regresar a la gestión de usuarios
-                navigate("/gestion-usuarios");
+                navigate(rutaListado);
 
             } catch (error) {
 
@@ -303,6 +323,8 @@ function RegistroUsuario() {
 
                 // Mostrar el error
                 alert(mensaje);
+            } finally {
+                setGuardando(false);
             }
         }
     }
@@ -315,39 +337,44 @@ function RegistroUsuario() {
 
             <div className="registro-card">
 
-                <h2>Registro de usuario</h2>
+                <h2>{registroPaciente ? "Registro de paciente" : registroMedico ? "Registro de médico" : "Registro de usuario"}</h2>
 
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} aria-busy={guardando}>
+                    {errores.perfil && <p role="alert">{errores.perfil}</p>}
 
                     {/* ===== DATOS PERSONALES ===== */}
 
                     <h3>Datos personales:</h3>
 
                     {/* Rol */}
-                    <div className="campo">
+                    {!rolFijo && (
+                        <div className="campo">
 
-                        <label>Rol *</label>
+                            <label>Rol *</label>
 
-                        <select
-                            name="rol"
-                            value={formData.rol}
-                            onChange={handleChange}
-                            className={errores.rol ? "input-error" : ""}
-                        >
-                            <option value="">Seleccionar</option>
-                            <option value="Administrador">Administrador</option>
-                            <option value="Recepcionista">Recepcionista</option>
-                            <option value="Medico">Médico</option>
-                            <option value="Paciente">Paciente</option>
-                        </select>
+                            <div className="registro-select">
+                                <select
+                                    name="rol"
+                                    value={formData.rol}
+                                    onChange={handleChange}
+                                    className={errores.rol ? "input-error" : ""}
+                                >
+                                    <option value="">Seleccionar</option>
+                                    <option value="Administrador">Administrador</option>
+                                    <option value="Recepcionista">Recepcionista</option>
+                                    <option value="Medico">Médico</option>
+                                    <option value="Paciente">Paciente</option>
+                                </select>
+                            </div>
 
-                        {errores.rol && (
-                            <span className="error">
-                                {errores.rol}
-                            </span>
-                        )}
+                            {errores.rol && (
+                                <span className="error">
+                                    {errores.rol}
+                                </span>
+                            )}
 
-                    </div>
+                        </div>
+                    )}
 
                     {/* Nombres */}
                     <div className="campo">
@@ -398,19 +425,21 @@ function RegistroUsuario() {
 
                         <label>Tipo de documento *</label>
 
-                        <select
-                            name="tipoDocumento"
-                            value={formData.tipoDocumento}
-                            onChange={handleChange}
-                            className={
-                                errores.tipoDocumento ? "input-error" : ""
-                            }
-                        >
-                            <option value="">Seleccionar</option>
-                            <option value="CC">Cédula de ciudadanía</option>
-                            <option value="TI">Tarjeta de identidad</option>
-                            <option value="CE">Cédula de extranjería</option>
-                        </select>
+                        <div className="registro-select">
+                            <select
+                                name="tipoDocumento"
+                                value={formData.tipoDocumento}
+                                onChange={handleChange}
+                                className={
+                                    errores.tipoDocumento ? "input-error" : ""
+                                }
+                            >
+                                <option value="">Seleccionar</option>
+                                <option value="CC">Cédula de ciudadanía</option>
+                                <option value="TI">Tarjeta de identidad</option>
+                                <option value="CE">Cédula de extranjería</option>
+                            </select>
+                        </div>
 
                         {errores.tipoDocumento && (
                             <span className="error">
@@ -452,6 +481,7 @@ function RegistroUsuario() {
                         <input
                             type="tel"
                             name="telefono"
+                            inputMode="numeric"
                             placeholder="Digite su número telefónico"
                             value={formData.telefono}
                             onChange={handleChange}
@@ -513,6 +543,8 @@ function RegistroUsuario() {
 
                     </div>
 
+
+                    <CamposPerfil rol={formData.rol} datos={formData} onChange={handleChange} />
 
                     {/* ===== CREAR CONTRASEÑA ===== */}
 
@@ -598,12 +630,12 @@ function RegistroUsuario() {
 
                         <button
                             type="button"
-                            onClick={() => navigate("/gestion-usuarios")}
+                            onClick={() => navigate(rutaListado)}
                         >
                             Volver
                         </button>
 
-                        <button type="submit">
+                        <button disabled={guardando} type="submit">
                             Registrar
                         </button>
 

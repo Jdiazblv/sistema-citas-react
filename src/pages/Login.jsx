@@ -52,7 +52,7 @@ function Login() {
                 const respuesta = await api.post("/login", {
                     documento: usuario,
                     password: password
-                });
+                }, { sinSesion: true });
 
                 // Obtener el token y los datos del usuario desde la respuesta
                 const { token, usuario: datosUsuario } = respuesta.data;
@@ -64,7 +64,7 @@ function Login() {
                 setError("");
 
                 // Continuar al panel principal
-                navigate("/dashboard");
+                navigate("/dashboard", { replace: true });
 
             } catch (error) {
                 if (error.response?.status === 401) {
@@ -88,7 +88,7 @@ function Login() {
                 </h2>
 
                 <p>
-                   ¯ Gestion de Citas Medicas
+                    Gestion de Citas Medicas
                 </p>
 
                 <form onSubmit={manejarLogin}>
@@ -112,8 +112,6 @@ function Login() {
                                 setErrorDocumento("Ingrese su documento.");
                             } else if (!/^\d+$/.test(valor)) {
                                 setErrorDocumento("El documento debe contener solo números.");
-                            } else if (valor.length !== 10) {
-                                setErrorDocumento("La cédula debe tener 10 dígitos.");
                             } else {
                                 setErrorDocumento("");
                             }

@@ -107,6 +107,24 @@ const rutasNavegacion = {
         rutaAnterior: "/dashboard"
     },
 
+    "/registro-medico": {
+        titulo: "Registrar médico",
+        migas: [
+            { nombre: "Gestión de médicos", ruta: "/gestion-medicos" },
+            { nombre: "Registrar médico" }
+        ],
+        rutaAnterior: "/gestion-medicos"
+    },
+
+    "/perfil-medico": {
+        titulo: "Perfil de médico",
+        migas: [
+            { nombre: "Gestión de médicos", ruta: "/gestion-medicos" },
+            { nombre: "Perfil de médico" }
+        ],
+        rutaAnterior: "/gestion-medicos"
+    },
+
     // ======================================
     // GESTIÓN DE CITAS
     // ======================================

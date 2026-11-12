@@ -1,0 +1,175 @@
+.listado-gestion {
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+    margin-top: clamp(16px, 3vw, 32px);
+    padding: clamp(16px, 3vw, 32px);
+    background: #020617;
+    color: #e2e8f0;
+    border: 1px solid #03688e;
+    border-radius: 16px;
+}
+
+.listado-gestion__encabezado {
+    margin-bottom: 16px;
+}
+
+.listado-gestion__barra {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px clamp(24px, 4vw, 48px);
+    margin-bottom: 24px;
+}
+
+.listado-gestion__encabezado h2 {
+    margin: 0;
+    color: #38bdf8;
+    font-size: clamp(22px, 3vw, 30px);
+}
+
+.listado-gestion__nuevo,
+.listado-gestion__ver {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 14px;
+    border: 1px solid #38bdf8;
+    border-radius: 9px;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.listado-gestion .listado-gestion__nuevo {
+    margin-left: auto;
+    margin-right: clamp(0px, 5vw - 32px, 76px);
+    background: #38bdf8;
+    color: #082032;
+}
+
+.listado-gestion .listado-gestion__nuevo:hover {
+    background: #7dd3fc;
+}
+
+.listado-gestion .listado-gestion__ver {
+    background: #082438;
+    border-color: #075985;
+    color: #bae6fd;
+    font-size: 13px;
+}
+
+.listado-gestion .listado-gestion__ver:hover {
+    background: #0c4a6e;
+}
+
+.listado-gestion__busqueda {
+    position: relative;
+    width: min(100%, 360px);
+    color: #7dd3fc;
+}
+
+.listado-gestion__busqueda svg {
+    position: absolute;
+    top: 50%;
+    left: 14px;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+.listado-gestion__busqueda input {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 12px 14px 12px 42px;
+    border: 1px solid #334155;
+    border-radius: 10px;
+    background: #0f172a;
+    color: #f8fafc;
+    font: inherit;
+    color-scheme: dark;
+}
+
+.listado-gestion__busqueda input::placeholder {
+    color: #94a3b8;
+}
+
+.listado-gestion :focus-visible {
+    outline: 2px solid #7dd3fc;
+    outline-offset: 2px;
+}
+
+.listado-gestion__desplazamiento {
+    overflow-x: auto;
+    border: 1px solid #1e3a5f;
+    border-radius: 12px;
+}
+
+.listado-gestion .listado-gestion__tabla {
+    width: 100%;
+    min-width: 670px;
+    margin: 0;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.listado-gestion__tabla th,
+.listado-gestion__tabla td {
+    padding: 13px 16px;
+    border-bottom: 1px solid #1e293b;
+    text-align: left;
+}
+
+.listado-gestion__tabla th {
+    background: #0c2438;
+    color: #bae6fd;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.listado-gestion__tabla tbody tr {
+    background: #0a1425;
+}
+
+.listado-gestion__tabla tbody tr:nth-child(even) {
+    background: #0f1b2f;
+}
+
+.listado-gestion__tabla tbody tr:hover {
+    background: #14253c;
+}
+
+.listado-gestion__tabla tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.listado-gestion__tabla td:first-child {
+    color: #f8fafc;
+    font-weight: 600;
+}
+
+.listado-gestion__estado {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 20px;
+    background: #334155;
+    color: #e2e8f0;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.listado-gestion__estado--activo {
+    background: #13352c;
+    color: #86efac;
+}
+
+.listado-gestion .listado-gestion__mensaje {
+    padding: 18px;
+    color: #cbd5e1;
+    text-align: center;
+}
+
+.listado-gestion__mensaje[role="alert"] {
+    background: #3a1824;
+    border-radius: 9px;
+}

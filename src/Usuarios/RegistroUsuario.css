@@ -95,6 +95,130 @@
     transition: 0.2s;
 }
 
+.registro-card .registro-select {
+    position: relative;
+    color: white;
+}
+
+.registro-card .registro-select select {
+    appearance: none;
+    padding-right: 44px;
+}
+
+.registro-card .registro-select::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 19px;
+    width: 8px;
+    height: 8px;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: translateY(-70%) rotate(45deg);
+    pointer-events: none;
+}
+
+@media (forced-colors: active) {
+    .registro-card .registro-select select {
+        appearance: auto;
+        padding-right: 15px;
+    }
+
+    .registro-card .registro-select::after {
+        display: none;
+    }
+}
+
+.registro-card .registro-especialidades__etiqueta {
+    color: #38bdf8;
+    font-size: 13px;
+    font-weight: bold;
+    margin-bottom: 7px;
+}
+
+.registro-especialidades summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 19px 12px 15px;
+    border: 2px solid #38bdf8;
+    border-radius: 25px;
+    background: #0f172a;
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+    list-style: none;
+}
+
+.registro-especialidades summary::-webkit-details-marker {
+    display: none;
+}
+
+.registro-especialidades summary::after {
+    content: "";
+    width: 8px;
+    height: 8px;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: translateY(-2px) rotate(45deg);
+}
+
+.registro-especialidades[open] summary::after {
+    transform: translateY(2px) rotate(225deg);
+}
+
+.registro-especialidades__opciones {
+    margin-top: 8px;
+    padding: 5px 12px;
+    border: 1px solid #03688e;
+    border-radius: 12px;
+    background: #0f172a;
+}
+
+.registro-card .campo .registro-especialidades__opciones label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+    min-height: 44px;
+    color: #e2e8f0;
+    font-weight: normal;
+    cursor: pointer;
+}
+
+.registro-card .campo .registro-especialidades__opciones input {
+    width: 16px;
+    height: 16px;
+    margin: 0;
+    padding: 0;
+    accent-color: #38bdf8;
+}
+
+.registro-especialidades__acciones {
+    display: flex;
+    justify-content: flex-end;
+    padding: 8px 0;
+    border-top: 1px solid #1e3a5f;
+}
+
+.registro-especialidades__acciones button {
+    padding: 8px 16px;
+    border: 1px solid #38bdf8;
+    border-radius: 8px;
+    background: #38bdf8;
+    color: #082032;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.registro-especialidades summary:focus-visible,
+.registro-especialidades__acciones button:focus-visible,
+.registro-card .campo .registro-especialidades__opciones input:focus-visible {
+    outline: 2px solid #7dd3fc;
+    outline-offset: 2px;
+}
+
 /* Efecto al seleccionar un campo */
 
 .registro-card .campo input:focus,

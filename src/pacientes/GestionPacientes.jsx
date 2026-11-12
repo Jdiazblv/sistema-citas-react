@@ -1,129 +1,60 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { FaSearch } from 'react-icons/fa';
-import "./GestionPacientes.css";
+import React, { useEffect, useState } from "react";
+import ListadoGestion from "../componentes/gestion/ListadoGestion";
 import api from "../services/api";
 
-function GestionPacientes({ listaPacientes, setListaPacientes }) {
-    
-    const navigate = useNavigate();
-
-    // Estado para la búsqueda
-    const [busqueda, setBusqueda] = useState('');
-    
-    const obtenerPacientes = async () => {
-
-        try {
-
-            const respuesta = await api.get('/pacientes');
-            setListaPacientes(respuesta.data);
-            
-        } catch (error) {
-            console.error(error);
-        }
-    }
+export default function GestionPacientes({ listaPacientes, setListaPacientes }) {
+    const [busqueda, setBusqueda] = useState("");
+    const [cargando, setCargando] = useState(true);
+    const [error, setError] = useState("");
 
     useEffect(() => {
+        let vigente = true;
+
+        async function obtenerPacientes() {
+            try {
+                const { data } = await api.get("/pacientes");
+                if (vigente) setListaPacientes(data);
+            } catch (error) {
+                if (vigente) setError(error.response?.data?.mensaje || "No fue posible cargar los pacientes.");
+            } finally {
+                if (vigente) setCargando(false);
+            }
+        }
+
         obtenerPacientes();
-    }, []);
+        return () => { vigente = false; };
+    }, [setListaPacientes]);
 
-    console.log(listaPacientes);
+    const texto = busqueda.trim().toLowerCase();
+    const filas = (listaPacientes || []).flatMap((paciente) => {
+        const usuario = paciente.usuarioId;
+        if (!usuario) return [];
 
-    const pacientesFiltrados = (listaPacientes || []).filter(((p) => {
+        const nombre = [usuario.nombres, usuario.apellidos].filter(Boolean).join(" ");
+        const documento = String(usuario.documento || "");
+        if (!nombre.toLowerCase().includes(texto) && !documento.toLowerCase().includes(texto)) return [];
 
-        if (p.rol !== "Paciente") return false;
-        
-            const texto = busqueda.toLowerCase();
-
-            return (
-                p.nombres.toLowerCase().includes(texto) ||
-                p.apellidos.toLowerCase().includes(texto) ||
-                p.documento.toLowerCase().includes(texto)
-            );
-    }));
+        return [{
+            id: paciente._id,
+            celdas: [nombre, paciente.eps?.trim() || "Sin EPS registrada", documento, usuario.telefono],
+            activo: usuario.activo,
+            rutaPerfil: `/perfil-paciente/${paciente._id}`
+        }];
+    });
 
     return (
-        
-        <div className = "container">
-
-            <h2>Gestión de Pacientes</h2>
-
-            <br />
-
-            <h3>Pacientes Registrados</h3>
-
-
-            <div className = "barra-superior">
-
-                <div className = "buscador">
-
-                    <FaSearch className = "icono-busqueda" />
-
-                    <input
-                        type = "text"
-                        placeholder = "Buscar paciente por nombre o documento"
-                        value = {busqueda}
-                        onChange = {(e) => setBusqueda(e.target.value)}
-                    />
-
-                </div>
-
-                <button 
-                    className = "btn-nuevo"
-                    onClick = {() => navigate('/registro-paciente')}
-                >
-                    Nuevo Paciente
-                </button>
-
-            </div>
-
-            <br />
-            <br />
-
-            <table className = "tabla-pacientes">
-
-                <thead>
-                    <tr>
-                        <th>Nombre</th>
-                        <th>EPS</th>
-                        <th>Documento</th>
-                        <th>Teléfono</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-
-                    {pacientesFiltrados.map((p, index) => (
-
-                            <tr key = {index}>
-
-                                <td>{p.nombres} {p.apellidos}</td>
-                                <td>{p.eps}</td>
-                                <td>{p.documento}</td>
-                                <td>{p.telefono}</td>
-
-                                <td className = "celda-acciones">
-
-                                    <button
-                                        className = "btn-ver"
-                                        onClick = {() => navigate(`/perfil-paciente/${p._id}`)}
-                                    >
-                                        Ver
-                                    </button>
-
-                                </td>
-
-                            </tr>
-                        ))}
-
-                </tbody>
-
-            </table>
-
-        </div>
+        <ListadoGestion
+            titulo="Gestión de Pacientes"
+            entidad="pacientes"
+            rutaNuevo="/registro-paciente"
+            textoNuevo="Nuevo paciente"
+            busqueda={busqueda}
+            setBusqueda={setBusqueda}
+            placeholder="Buscar por nombre o documento"
+            columnas={["Nombre", "EPS", "Documento", "Teléfono"]}
+            filas={filas}
+            cargando={cargando}
+            error={error}
+        />
     );
-
 }
-
-export default GestionPacientes;

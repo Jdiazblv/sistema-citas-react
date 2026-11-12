@@ -117,3 +117,20 @@
     }
 
 }
+/* Acciones a la izquierda y ubicación actual a la derecha. */
+.navegacion-acciones {
+    flex-shrink: 0;
+}
+
+.navegacion-migas {
+    margin-left: auto;
+    justify-content: flex-end;
+    min-width: 0;
+}
+
+@media (max-width: 600px) {
+    .navegacion-migas {
+        align-self: flex-end;
+        text-align: right;
+    }
+}

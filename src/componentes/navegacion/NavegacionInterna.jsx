@@ -51,8 +51,36 @@ function NavegacionInterna({ titulo, rutaAnterior }) {
 
         <div className="navegacion-interna">
 
+            {/* Acciones de navegación */}
+            {location.pathname !== "/dashboard" && (
+
+                <div className="navegacion-acciones">
+
+                    <button
+                        className="navegacion-btn volver"
+                        onClick={volver}
+                        type="button"
+                    >
+                        <FaArrowLeft />
+                        Volver
+                    </button>
+
+
+                    <Link
+                        to="/dashboard"
+                        className="navegacion-btn inicio"
+                    >
+                        <FaHome />
+                        Inicio
+                    </Link>
+
+                </div>
+
+            )}
+
+
             {/* Migas de pan */}
-            <div className="navegacion-migas">
+            <nav className="navegacion-migas" aria-label="Migas de pan">
 
                 <Link
                     to="/dashboard"
@@ -81,7 +109,7 @@ function NavegacionInterna({ titulo, rutaAnterior }) {
 
                         ) : (
 
-                            <span className="navegacion-actual">
+                            <span className="navegacion-actual" aria-current="page">
                                 {titulo || miga.nombre}
                             </span>
 
@@ -91,35 +119,7 @@ function NavegacionInterna({ titulo, rutaAnterior }) {
 
                 ))}
 
-            </div>
-
-
-            {/* Acciones de navegación */}
-            {location.pathname !== "/dashboard" && (
-
-                <div className="navegacion-acciones">
-
-                    <button
-                        className="navegacion-btn volver"
-                        onClick={volver}
-                        type="button"
-                    >
-                        <FaArrowLeft />
-                        Volver
-                    </button>
-
-
-                    <Link
-                        to="/dashboard"
-                        className="navegacion-btn inicio"
-                    >
-                        <FaHome />
-                        Inicio
-                    </Link>
-
-                </div>
-
-            )}
+            </nav>
 
         </div>
 
